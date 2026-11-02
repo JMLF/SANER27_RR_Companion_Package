@@ -1,0 +1,17 @@
+[11] -- Monday, November 02, 2026 -- 21:19:30
+t tests - Means: Wilcoxon signed-rank test (matched pairs)
+
+Options:	A.R.E. method
+
+Analysis:	A priori: Compute required sample size 
+Input:		Tail(s)                       	=	Two
+			Parent distribution           	=	min ARE
+			Effect size dz                	=	0,2010076
+			α err prob                    	=	0,005
+			Power (1-β err prob)          	=	0,95
+Output:		Noncentrality parameter δ     	=	4,4724620
+			Critical t                    	=	2,8196986
+			Df                            	=	494,072
+			Total sample size             	=	573
+			Actual power                  	=	0,9502797
+
