@@ -1,0 +1,11 @@
+[submodule "github mining tool"]
+	path = github_mining_tool
+	url = hhttps://github.com/JMLF/Bagger-GH.git
+
+[submodule "agent mining heuristics"]
+	path = agent_mining_heuristics
+	url = https://github.com/labri-progress/agent-mining.git   
+
+[submodule "agent detection tool"]
+	path = agent_detection_tool
+	url = https://github.com/labri-progress/agent-impact.git 
