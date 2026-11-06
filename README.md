@@ -1,6 +1,9 @@
 # Adoption of Coding Agents in Machine Learning Projects
 This repository is the companion package for the register report: Adoption of Coding Agents in Machine Learning Projects.
 
+![alt text](ai-agent-xp.drawio.png)
+
+
 ## Github project mining
 To collect ML project from Github we developed and use [this tool](Bagger-GH/). 
 The tool levrage the Github search api to collect files that "hit" (respond) to a search querie.
@@ -39,6 +42,10 @@ The filter used are the following:
 | **F5** | Repo | History | ≥ 3 commits | Excludes repositories used as file storage (e.g., a single upload). |
 | **F6** | Repo | Recent activity | ≥ 1 commit after 2025-01-01 | Coding-agent adoption can only be observed in projects active since agents became available. |
 
+**Manual verification guideline**
+To asses the validity of our mining approach, we will randomly sample 73 projects from the collection.
+For each project, the annotators will clone the project. Read the README file and project description, look at the files in the project and label each project as "ML-project" if the project does contain ML pipeline code (to define) or "non-ML-project" if the project does not caontain an ML pipeline or should not have been mined.
+
 *. Keyword noise: "example", "examples", "tutorial", "tutorials", "demo", "demos", "sample", "samples", "test", "tests", "docs", "site-packages", "dataset", "datasets", "agent", "agents", "course", "courses", "lecture", "lectures", "lesson", "lessons"
 
 **. Organization name: "tensorflow", "google-research", "microsoft", "GoogleCloudPlatform", "wandb", "probml", "google", "agential-ai", "IBM", "huggingface", "Kaggle", "AlibabaResearch", "Deep-Spark", "autogluon", "aws-samples", "Azure", "INRIA", "facebookresearch", "facebook", "tenstorrent" ...
@@ -46,6 +53,7 @@ The filter used are the following:
 IF the repo and the organization have the same name we drop them.
 Do we keep the labs? google-research or Alibaba, they have libs and paper...
 probml is a book we can certainly drop it
+
 
 ## Sample size 
 To propoerly compute the a priori sample size using G\*Power we had to convert the r type effect of Rrb to d type effect (G\*Power uses dz effect).
@@ -134,7 +142,7 @@ In the last version of the [detection heuristics](agent-mining/), they were dete
 | `warp` | Robbes et al. |
 | `windsurf` | Robbes et al. |
 
-We plan to add at least 8 more "generic" coding agents and 6 ML-specific agents:
+We plan to add at least 8 more coding agents:
 
 | Agent | Type | Implementers |
 | --- | --- | --- |
@@ -146,12 +154,17 @@ We plan to add at least 8 more "generic" coding agents and 6 ML-specific agents:
 | `fast-agent` | Generic |
 | `Forge` | Generic |
 | `Code Assistant` | Generic |
-| `MLEvolve` | ML-specific |
+<!-- | `MLEvolve` | ML-specific |
 | `MLZero` | ML-specific |
 | `Aide` | ML-specific |
 | `Ml-master` | ML-specific |
 | `Mle-star` | ML-specific |
-| `AIBuildAI` | ML-specific |
+| `AIBuildAI` | ML-specific | -->
+
+<!-- Aide / Weco seems to be identifliable using the name https://github.com/aiden-weco of the agent and inside python import aide as a lib. -->
+
+
+
 
 1. Robbes, R., Matricon, T., Degueule, T., Hora, A., & Zacchiroli, S. (2026). Agentic much? adoption of coding agents on github. ACM Transactions on Software Engineering and Methodology.
 
