@@ -1,12 +1,10 @@
 # Adoption of Coding Agents in Machine Learning Projects
 This repository is the companion package for the register report: Adoption of Coding Agents in Machine Learning Projects.
 
-![alt text](ai-agent-xp.drawio.png)
-
 
 ## Github project mining
 To collect ML project from Github we developed and use [this tool](Bagger-GH/). 
-The tool levrage the Github search api to collect files that "hit" (respond) to a search querie.
+The tool levrage the Github search api to collect files that "hit" (respond) to a search querie. The queries are scoped to Python and Jupyter Notebook files using the `language:python` and `language:"Jupyter Notebook"` qualifiers.
 We will use the following queries:
 
 
@@ -44,19 +42,19 @@ The filter used are the following:
 
 **Manual verification guideline**
 To asses the validity of our mining approach, we will randomly sample 73 projects from the collection.
-For each project, the annotators will clone the project. Read the README file and project description, look at the files in the project and label each project as "ML-project" if the project does contain ML pipeline code (to define) or "non-ML-project" if the project does not caontain an ML pipeline or should not have been mined.
+For each project, the annotators will clone the project. Read the README file and project description, look at the files in the project and label each project as "ML-project" if the project does contain ML pipeline code or "non-ML-project" if the project does not caontain an ML pipeline or should not have been mined.
+Manual validation guidelines in [this file](ml_project_labeling_guidelines.md)
 
 *. Keyword noise: "example", "examples", "tutorial", "tutorials", "demo", "demos", "sample", "samples", "test", "tests", "docs", "site-packages", "dataset", "datasets", "agent", "agents", "course", "courses", "lecture", "lectures", "lesson", "lessons"
 
-**. Organization name: "tensorflow", "google-research", "microsoft", "GoogleCloudPlatform", "wandb", "probml", "google", "agential-ai", "IBM", "huggingface", "Kaggle", "AlibabaResearch", "Deep-Spark", "autogluon", "aws-samples", "Azure", "INRIA", "facebookresearch", "facebook", "tenstorrent" ...
+**. Organization name: "tensorflow", "google-research", "microsoft", "google", "google-deepmind", "GoogleCloudPlatform", "wandb", "probml", "google", "agential-ai", "IBM", "huggingface", "Kaggle", "AlibabaResearch", "Deep-Spark", "autogluon", "aws-samples", "Azure", "INRIA", "facebookresearch", "facebook", "tenstorrent", "keras-team", "scikit-learn", "pytorch", "dmlc", "PaddlePaddle", "jax-ml", "Lightning-AI", "statsmodels", "apache", "lightgbm-org", "catboost", "fastai", "unifyai", "jina-ai", "mlpack", "explosion", "ludwig-ai", "skorch-dev", "ROCm", "geomstats", "pyRiemann", "numenta", "determined-ai", "sony", "deepinv", "towhee-io", "nubank", "run-house", "mlflow", "wandb" ... Also, if the reposotory and the organization have the same name we drop them.
 
-IF the repo and the organization have the same name we drop them.
-Do we keep the labs? google-research or Alibaba, they have libs and paper...
-probml is a book we can certainly drop it
 
+## Project Type ($P_{type}$) 
+The guidelines are in [this file](project_type_taxonomie.md/)
 
 ## Sample size 
-To propoerly compute the a priori sample size using G\*Power we had to convert the r type effect of Rrb to d type effect (G\*Power uses dz effect).
+To propoerly compute the a priori sample size using G\*Power (version 3.1.9.6) we had to convert the r type effect of Rrb to d type effect (G\*Power uses dz effect).
 We used the convertion formula [1,2] implemented in [this R script](effect_size_convertion.R/).
 For an effect of 0.1 in r that gives us 0.2010076 in d.
 We used this d value in G\*Power.
@@ -146,14 +144,14 @@ We plan to add at least 8 more coding agents:
 
 | Agent | Type | Implementers |
 | --- | --- | --- |
-| `qoder` | Generic |
-| `Cosine` | Generic |
-| `Tembo` | Generic |
-| `VTCode` | Generic |
-| `StatPack` | Generic |
-| `fast-agent` | Generic |
-| `Forge` | Generic |
-| `Code Assistant` | Generic |
+| `qoder` | Generic | Us
+| `Cosine` | Generic | Us 
+| `Tembo` | Generic | Us 
+| `VTCode` | Generic | Us 
+| `StatPack` | Generic | Us 
+| `fast-agent` | Generic | Us 
+| `Forge` | Generic | US 
+| `Code Assistant` | Generic | Us
 <!-- | `MLEvolve` | ML-specific |
 | `MLZero` | ML-specific |
 | `Aide` | ML-specific |
@@ -173,5 +171,8 @@ We plan to add at least 8 more coding agents:
 3. Robbes, R., Matricon, T., Degueule, T., Hora, A., & Zacchiroli, S. (2026, April). Promises, perils, and (timely) heuristics for mining coding agent activity. In Proceedings of the 23rd International Conference on Mining Software Repositories (pp. 496-507).
 
 ## RQ2. Skills Collection
+Skill files categorization guide in [this file](skill_categorization_guidelines.md)
 
-- Categorization guidelines of the skill files
+## RQ4 
+For RQ4, we will reuse and adapt this analysis pipeline: https://zenodo.org/records/21464700
+
