@@ -73,7 +73,8 @@ def _(candidates):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Let drop the projects that where the owner name correpond to one of the name we want to not consider
+    Let drop the projects that where the owner name correpond to one of the name we want to not consider.
+    After the first run of manual verification, we have entended this list.
     """)
     return
 
@@ -95,7 +96,7 @@ def _():
         "sony", "Netflix", "spotify", "uber", "airbnb", "linkedin", "twitter", "pinterest", "nubank",
         "alibaba", "AlibabaResearch", "modelscope", "Tencent", "baidu", "PaddlePaddle",
         "bytedance", "huawei-noah", "mindspore-ai", "yandex", "naver", "clovaai",
-        "INRIA", "opendsm"
+        "INRIA", "opendsm", "schneiderkamplab",
         "openai", "anthropics", "mistralai", "cohere-ai", "deepseek-ai", "QwenLM", "THUDM",
         "01-ai", "InternLM", "OpenGVLab", "OpenBMB", "Stability-AI", "CompVis",
         "EleutherAI", "allenai", "bigscience-workshop", "LAION-AI", "mlfoundations", "lm-sys",
@@ -140,15 +141,105 @@ def _(candidates, name_to_ignore):
     return (candidates_filtered,)
 
 
-@app.cell
-def _(candidates_filtered):
-    candidates_filtered.to_csv('candidates_filtered.csv')
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    After run1 of the manual verification we also added a check on the repository name and description to see if it contain one of the word we want to ignore.
+    """)
     return
 
 
 @app.cell
-def _(candidates_filtered):
-    candidates_filtered.sample(n=73, random_state=456789)
+def _():
+    noise_word = [
+        # Anglais
+        "example", "examples", "tutorial", "tutorials", "demo", "demos",
+        "docs", "course", "courses", "lecture", "lectures",
+        "lesson", "lessons", "term", "terms", "exam", "exams",
+
+        # Russe
+        "пример", "примеры",                # example(s)
+        "руководство", "руководства",       # tutorial(s)
+        "туториал", "туториалы",            # tutorial(s)
+        "демо", "демонстрация",             # demo(s)
+        "тест", "тесты",                    # test(s)
+        "документация",                     # docs
+        "курс", "курсы",                    # course(s)
+        "лекция", "лекции",                 # lecture(s)
+        "урок", "уроки",                    # lesson(s)
+        "семестр", "семестры",              # term(s)
+        "экзамен", "экзамены",              # exam(s)
+
+        # Chinois (simplifié)
+        "示例", "例子", "范例",              # example(s)
+        "教程",                             # tutorial(s)
+        "演示",                             # demo(s)
+        "测试",                             # test(s)
+        "文档",                             # docs
+        "课程",                             # course(s)
+        "讲座", "讲义",                      # lecture(s)
+        "课",                               # lesson(s)
+        "学期",                             # term(s)
+        "考试",                             # exam(s)
+    ]
+    return (noise_word,)
+
+
+@app.cell
+def _(candidates_filtered, noise_word):
+    import re
+
+    pattern = "|".join(map(re.escape, noise_word))
+
+    mask_repo_name = candidates_filtered["repo_name"].str.contains(pattern, case=False, na=False, regex=True)
+
+    noisy_repo_name = candidates_filtered[mask_repo_name]  
+    # clean = candidates_filtered[~mask]   # repos sans aucun de ces termes
+    return mask_repo_name, noisy_repo_name, pattern
+
+
+@app.cell
+def _(noisy_repo_name):
+    noisy_repo_name
+    return
+
+
+@app.cell
+def _(candidates_filtered, mask_repo_name):
+    candidates_filtered_noise_name = candidates_filtered[~mask_repo_name]
+    len(candidates_filtered_noise_name)
+    return (candidates_filtered_noise_name,)
+
+
+@app.cell
+def _(candidates_filtered_noise_name, pattern):
+    mask_noise_description = candidates_filtered_noise_name["description"].str.contains(pattern, case=False, na=False, regex=True)
+    noisy_repo_desc = candidates_filtered_noise_name[mask_noise_description] 
+    return mask_noise_description, noisy_repo_desc
+
+
+@app.cell
+def _(noisy_repo_desc):
+    noisy_repo_desc
+    return
+
+
+@app.cell
+def _(candidates_filtered_noise_name, mask_noise_description):
+    candidates_filtered_noise_name_desc = candidates_filtered_noise_name[~mask_noise_description]
+    len(candidates_filtered_noise_name_desc)
+    return (candidates_filtered_noise_name_desc,)
+
+
+@app.cell
+def _(candidates_filtered_noise_name_desc):
+    candidates_filtered_noise_name_desc.to_csv('candidates_filtered.csv')
+    return
+
+
+@app.cell
+def _(candidates_filtered_noise_name_desc):
+    candidates_filtered_noise_name_desc.sample(n=160, random_state=42)
     return
 
 
