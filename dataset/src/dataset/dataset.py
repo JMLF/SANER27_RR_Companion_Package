@@ -154,8 +154,11 @@ def _():
     noise_word = [
         # Anglais
         "example", "examples", "tutorial", "tutorials", "demo", "demos",
-        "docs", "course", "courses", "lecture", "lectures",
+        "docs", "course", "courses", "lecture", "lectures", 
         "lesson", "lessons", "term", "terms", "exam", "exams",
+
+        #I am not sure of the following ones, let try to see
+        "notebook", "notebooks", "colab", "kaggle"
 
         # Russe
         "пример", "примеры",                # example(s)
@@ -240,6 +243,58 @@ def _(candidates_filtered_noise_name_desc):
 @app.cell
 def _(candidates_filtered_noise_name_desc):
     candidates_filtered_noise_name_desc.sample(n=160, random_state=42)
+    return
+
+
+@app.cell
+def _(candidates_filtered_noise_name_desc):
+    candidates_filtered_noise_name_desc[candidates_filtered_noise_name_desc["full_name"] == "bmqube/image-colorization"]
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The previous project is strange, on the web, the last commit was in 2024, but with the api, pushed_at (last commit event) is 2025. On github the date displayed is the commit date not the push date.
+    """)
+    return
+
+
+@app.cell
+def _(candidates_filtered_noise_name_desc, pd):
+    candidates_filtered_noise_name_desc["created_at"] = pd.to_datetime(candidates_filtered_noise_name_desc["created_at"], utc=True)
+    candidates_filtered_noise_name_desc["pushed_at"] = pd.to_datetime(candidates_filtered_noise_name_desc["pushed_at"], utc=True)
+    candidates_filtered_noise_name_desc
+
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Regardons si on peut garder uniquement les projets qui on minimum 3 mois de durée de vie (entre la creation et le dernier commit).
+    """)
+    return
+
+
+@app.cell
+def _(candidates_filtered_noise_name_desc, pd):
+    # Garde les lignes où date2 est au moins 3 mois après date1
+    df_filtre = candidates_filtered_noise_name_desc[candidates_filtered_noise_name_desc["pushed_at"] >= candidates_filtered_noise_name_desc["created_at"] + pd.DateOffset(months=3)]
+    df_filtre
+    return (df_filtre,)
+
+
+@app.cell
+def _(df_filtre):
+    df_filtre_min_commit = df_filtre[df_filtre['commit_count'] >= 10]
+    df_filtre_min_commit
+    return (df_filtre_min_commit,)
+
+
+@app.cell
+def _(df_filtre_min_commit):
+    df_filtre_min_commit[df_filtre_min_commit['open_issues'] >= 1]
     return
 
 
